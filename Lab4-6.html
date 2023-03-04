@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    header {
+        text-align: center;
+        width: 100%;
+    }
+
+    body {
+    }
+
+    html {
+        background-image: linear-gradient(to right, cornflowerblue, lightblue, white, lightblue, cornflowerblue);
+    }
+
+
+    .button {
+        font-size: 20px;
+        display: inline-block;
+        background-color: cornflowerblue;
+        padding: 20px;
+        width: 200px;
+        color: black;
+        text-align: center;
+        border: 4px double black;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15%;
+        transition: all 0.5s;
+    }
+
+    .button:hover {
+        background-color: lightblue;
+    }
+
+    .form-popup {
+        display: none;
+        position: fixed;
+        width: auto;
+        bottom: 0;
+        z-index: 9;
+        max-width: 420px;
+    }
+
+    .form-container {
+        width: 380px;
+        padding: 10px;
+        margin-bottom: 150px;
+        margin-left: 160%;
+        background-color: white;
+    }
+
+    .form-container input[type=text] {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    .form-container input[type=text]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+    .form-container .btn {
+        background-color: #04AA6D;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+
+    .form-container .cancel {
+        background-color: red;
+    }
+
+    .form-container .btn:hover, .open-button:hover {
+        opacity: 1;
+    }
+
+    .quiz {
+        display: none;
+    }
+
+    .item1 {
+        grid-area: item1;
+    }
+
+    .item2 {
+        grid-area: item2;
+    }
+
+    .item3 {
+        grid-area: item3;
+    }
+
+    .item4 {
+        grid-area: column1;
+    }
+
+    .item5 {
+        grid-area: column2;
+    }
+
+    .item6 {
+        grid-area: column3;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-areas:
+    'item1 item2 item3'
+    'column1 column2 column3';
+        gap: 10px;
+        padding: 10px;
+        line-height: 30px;
+    }
+
+    @media screen and (max-width: 1000px) {
+        .form-container {
+            margin-left: 0px;
+        }
+    }
+
+</style>
+<body>
+<header>
+    <button class="button" id="mainButton" onclick="openForm()">Зареєструватися</button>
+    <div class="form-popup" id="myForm">
+        <form class="form-container">
+            <label for="name"><b>Ім'я</b></label>
+            <input type="text" style="max-width: 350px" placeholder="Введіть ім'я та прізвище" id="name" required>
+
+            <label for="group"><b>Група</b></label>
+            <input type="text" style="max-width: 350px" placeholder="Введіть групу" id="group" required>
+
+            <button type="button" class="btn" onclick="openTest(), shuffleAnswers()">Увійти</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Закрити</button>
+        </form>
+    </div>
+    <div class="quiz" id="myTest">
+        <form>
+            <h2>Запитання 1</h2>
+            <p>Що таке об'єкт?</p>
+            <div id="q1-answers">
+                <label for="q1a1"><input type="radio" name="q1" value="1" id="q1a1">Складовий тип даних, він об'єднує
+                    безліч
+                    значень в
+                    єдиний модуль і дозволяє зберігати і витягувати значення за їхніми
+                    іменами.<br></label>
+                <label for="q1a2"><input type="radio" name="q1" value="0" id="q1a2">Спеціальний метод класу, який
+                    автоматично
+                    викликається при створенні об'єкта<br></label>
+                <label for="q1a3"><input type="radio" name="q1" value="0" id="q1a3">Функція, що використовується
+                    виключно разом
+                    із класом.<br></label>
+            </div>
+            <h2>Запитання 2</h2>
+            <p>Виберіть правильний спосіб створення Об'єкта</p>
+            <div id="q2-answers">
+                <label for="q2a1"><input type="checkbox" name="q2a" value="1" id="q2a1">let user = {};<br></label>
+                <label for="q2a2"><input type="checkbox" name="q2a" value="1" id="q2a2">let user = new
+                    Object();<br></label>
+                <label for="q2a3"><input type="checkbox" name="q2a" value="0" id="q2a3">Object user = new
+                    Object;<br></label>
+                <label for="q2a4"><input type="checkbox" name="q2a" value="0" id="q2a4">user = Object();<br></label>
+            </div>
+            <h2>Запитання 3</h2>
+            <p>Функція, яка
+                зберігається в якості значення у
+                властивості об'єкта і може
+                викликатися за допомогою цього
+                об'єкта.</p>
+            <select name="q3" id="q3">
+                <option id="q3a1" value="0">
+                    Конструктор
+                </option>
+                <option id="q3a2" value="0">
+                    Властивість
+                </option>
+                <option id="q3a3" value="1">
+                    Метод
+                </option>
+            </select>
+            <h2>Запитання 4</h2>
+            <div id="container" class="grid-container">
+                <div id="item1" class="item1" draggable="true" ondragstart="dragStart(event)">Порожній об'єкт</div>
+                <div id="item2" class="item2" draggable="true" ondragstart="dragStart(event)">Об'єкт з двома
+                    властивостями x і y
+                    зі значеннями 0
+                </div>
+                <div id="item3" class="item3" draggable="true" ondragstart="dragStart(event)">Об'єкт з декількома
+                    властивостями
+                </div>
+                <div id="target1" class="item4" ondragover="dragOver(event)" ondrop="drop(event)">var empty = {};</div>
+                <div id="target2" class="item5" ondragover="dragOver(event)" ondrop="drop(event)">var user = { name:
+                    “John",
+                    age: 34, married: true };
+                </div>
+                <div id="target3" class="item6" ondragover="dragOver(event)" ondrop="drop(event)">var point = {x: 0, y:
+                    0};
+                </div>
+            </div>
+            <h2>Запитання 5</h2>
+            <p>Чи спрацює таке клонування?<br>
+                let user = { name: "John" };<br>
+                let admin = user;</p>
+            <div id="q5-answers">
+                <label for="q5a1"><input type="radio" name="q5" value="0" id="q5a1">Так<br></label>
+                <label for="q5a2"><input type="radio" name="q5" value="1" id="q5a2">Ні<br></label>
+            </div>
+            <h2>Запитання 6</h2>
+            <p>Властивості - це функції, які
+                використовуються для присвоєння та
+                отримання значення, але в
+                зовнішньому коді вони виглядають як
+                звичайні властивості об'єкта?</p>
+            <div id="q6-answers">
+                <label for="q6a1"><input type="radio" name="q6" value="1" id="q6a1">Так<br></label>
+                <label for="q6a2"><input type="radio" name="q6" value="0" id="q6a2">Ні<br></label>
+            </div>
+            <h2>Запитання 7</h2>
+            <p>Чи потрібно ставити дужки при виклику конструктора без аргументів?</p>
+            <div id="q7-answers">
+                <label for="q7a1"><input type="radio" name="q7" value="0" id="q7a1">Так<br></label>
+                <label for="q7a2"><input type="radio" name="q7" value="1" id="q7a2">Ні<br></label>
+            </div>
+            <h2>Запитання 8</h2>
+            <p>Чи спрацює таке клонування <br>
+                let user = {
+                name: "John",
+                age: 30
+                };<br>
+                let clone = {};<br>
+
+                for (let key in user) <br>{
+                clone [key] = user [key];
+                }</p>
+            <div id="q8-answers">
+                <label for="q8a1"><input type="radio" name="q8" value="1" id="q8a1">Так<br></label>
+                <label for="q8a2"><input type="radio" name="q8" value="0" id="q8a2">Ні<br></label>
+            </div>
+            <h2>Запитання 9</h2>
+            <p>Для доступу до об'єкта з
+                методу використовують
+                ключове слово this?</p>
+            <div id="q9-answers">
+                <label for="q9a1"><input type="radio" name="q9" value="1" id="q9a1">Так<br></label>
+                <label for="q9a2"><input type="radio" name="q9" value="0" id="q9a2">Ні<br></label>
+            </div>
+            <h2>Запитання 10</h2>
+            <p>Оператор new створює новий
+                порожній об'єкт без будь-яких
+                властивостей, а потім викликає
+                функцію-конструктор?</p>
+            <div id="q10-answers">
+                <label for="q10a1"><input type="radio" name="q10" value="1" id="q10a1">Так<br></label>
+                <label for="q10a2"><input type="radio" name="q10" value="0" id="q10a2">Ні<br></label>
+            </div>
+            <input type="button" class="button" value="Закінчити" onclick="checkAnswers()">
+        </form>
+    </div>
+    <div>
+        <h2 id="total-points"></h2>
+    </div>
+    <button class="button" id="Repeat" style="display: none" onclick="RepeatTest()">Повторити тест</button>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script>
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+        function openTest() {
+            const person = new Person(); // Створення об’єкт «Користувач» з властивостю «Ім’я».
+            person.parse();
+            const student = new Student(); // Створення об’єкта «Студент», що містить властивості, «Група» і методи: додати, змінити, видалити дані.
+            student["name"] = person["name"]; //Копіювання данних
+            student.parse();
+            Student.prototype.showData = function () { //Додати в прототип об’єкту «Студент» метод «Показати дані»
+                return `Ім'я ${this.name}\n Група ${this.group}`;
+            }
+            window.progres = new Progress();  // Створити об’єкт «Успішність», що наслідує властивості і методи
+                                              // об’єкту «Студент» і має додаткові властивості «Тест», «Спроба», «Бали»
+                                              // і метод «Розрахунок середнього балу» (за декілька спроб).
+                                              // Перевизначити в об’єкті «Успішність» метод «Показати дані»
+            console.log(student.name, student.group);
+            document.getElementById("myForm").style.display = "none";
+            document.getElementById("mainButton").style.display = "none";
+            document.getElementById("myTest").style.display = "block";
+        }
+
+        function shuffleAnswers() {
+            const q1Answers = document.getElementById("q1-answers");
+            for (let i = q1Answers.children.length; i >= 0; i--) {
+                q1Answers.appendChild(q1Answers.children[Math.random() * i | 0]);
+            }
+            const q2Answers = document.getElementById("q2-answers");
+            for (let i = q2Answers.children.length; i >= 0; i--) {
+                q2Answers.appendChild(q2Answers.children[Math.random() * i | 0]);
+            }
+            const q5Answers = document.getElementById("q5-answers");
+            for (let i = q5Answers.children.length; i >= 0; i--) {
+                q5Answers.appendChild(q5Answers.children[Math.random() * i | 0]);
+            }
+            const q6Answers = document.getElementById("q6-answers");
+            for (let i = q6Answers.children.length; i >= 0; i--) {
+                q6Answers.appendChild(q6Answers.children[Math.random() * i | 0]);
+            }
+            const q7Answers = document.getElementById("q7-answers");
+            for (let i = q7Answers.children.length; i >= 0; i--) {
+                q7Answers.appendChild(q7Answers.children[Math.random() * i | 0]);
+            }
+            const q8Answers = document.getElementById("q8-answers");
+            for (let i = q8Answers.children.length; i >= 0; i--) {
+                q8Answers.appendChild(q8Answers.children[Math.random() * i | 0]);
+            }
+            const q9Answers = document.getElementById("q9-answers");
+            for (let i = q9Answers.children.length; i >= 0; i--) {
+                q9Answers.appendChild(q9Answers.children[Math.random() * i | 0]);
+            }
+            const q10Answers = document.getElementById("q10-answers");
+            for (let i = q10Answers.children.length; i >= 0; i--) {
+                q10Answers.appendChild(q10Answers.children[Math.random() * i | 0]);
+            }
+        }
+
+        function dragStart(event) {
+            // Set the data to be transferred
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function dragOver(event) {
+            // Prevent default behavior (prevent file from being opened)
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            const data = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(data));
+        }
+
+        async function checkAnswers() {
+            var totalPoints = 0;
+            const q1a1 = document.getElementById("q1a1");
+            if (q1a1.checked) {
+                totalPoints += parseInt(q1a1.value);
+            }
+            const q2a1 = document.getElementById("q2a1");
+            if (q2a1.checked) {
+                totalPoints += parseInt(q2a1.value);
+            }
+            const q2a2 = document.getElementById("q2a2");
+            if (q2a2.checked) {
+                totalPoints += parseInt(q2a2.value);
+            }
+            const q3a3 = document.getElementById("q3a3");
+            if (q3a3.selected) {
+                totalPoints += parseInt(q3a3.value);
+            }
+            const q4q1 = document.getElementById("target1");
+            if (q4q1.lastChild.textContent == "Порожній об'єкт" && q4q1.children.length == 1)
+                totalPoints += parseInt(1);
+            const q4q2 = document.getElementById("target2");
+            if (q4q2.lastChild.textContent == "Об'єкт з декількома властивостями" && q4q2.children.length == 1)
+                totalPoints += parseInt(1);
+            const q4q3 = document.getElementById("target3");
+            if (q4q3.lastChild.textContent == "Об'єкт з двома властивостями x і y зі значеннями 0" && q4q3.children.length == 1)
+                totalPoints += parseInt(1);
+
+            const q5a2 = document.getElementById("q5a2");
+            if (q5a2.checked) {
+                totalPoints += parseInt(q5a2.value);
+            }
+
+            const q6a1 = document.getElementById("q6a1");
+            if (q6a1.checked) {
+                totalPoints += parseInt(q6a1.value);
+            }
+
+            const q7a2 = document.getElementById("q7a2");
+            if (q7a2.checked) {
+                totalPoints += parseInt(q7a2.value);
+            }
+
+            const q8a1 = document.getElementById("q8a1");
+            if (q8a1.checked) {
+                totalPoints += parseInt(q8a1.value);
+            }
+
+            const q9a1 = document.getElementById("q9a1");
+            if (q9a1.checked) {
+                totalPoints += parseInt(q9a1.value);
+            }
+
+            const q10a1 = document.getElementById("q10a1");
+            if (q10a1.checked) {
+                totalPoints += parseInt(q10a1.value);
+            }
+
+            document.getElementById("myTest").style.display = "none";
+            document.getElementById("Repeat").style.display = "inline-block";
+            document.getElementById("total-points").innerHTML = "Total points: " + totalPoints + "/13";
+            window.progres.try += 1;
+            window.progres.grade.push(totalPoints);
+            window.progres.parse();
+            fetch('https://api.telegram.org/5974090924:AAFgzJo2a-GL9beal7LPygGUrft9eM0YUow/sendMessage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: -519873227,
+                    text: "Здесенко Євгеній ТВ-11 ЛР JS2022\n" + progres.showData()
+                })
+            });
+            sendEmail();
+        }
+
+        function sendEmail() {
+            Email.send({
+                Host: "smtp.elasticemail.com",
+                Username: 'gzdesenko38@gmail.com',
+                Password: '8608AB954D342A123FEDDC472DC7AE95ED8E',
+                From: 'gzdesenko38@gmail.com',
+                To: "gzdesenko38@gmail.com",
+                Subject: 'Здесенко Євгеній ТВ-11 ЛР JS2022',
+                Body: "" + progres.showData()
+            }).then(
+                message => alert(message)
+            );
+        }
+
+        function RepeatTest() {
+            document.getElementById("total-points").innerHTML = "";
+            document.getElementById("Repeat").style.display = "none";
+            document.getElementById("myTest").style.display = "block";
+        }
+
+        class Person {
+            constructor() {
+                this.name = null;
+            }
+
+            parse() {
+                this.name = document.querySelector("#name").value;
+            }
+        }
+
+        class Student extends Person { //Реалізувати клас «Студент»
+            constructor() {
+                super();
+                this.group = null;
+            }
+
+            delete() {
+                this.name = null;
+                this.group = null;
+            }
+
+            change(name, group) {
+                this.name = name;
+                this.group = group;
+            }
+
+            parse() {
+                this.name = document.querySelector("#name").value;
+                this.group = document.querySelector("#group").value;
+            }
+        }
+
+        class Progress extends Student { //Реалізувати класи «Успішність»
+            constructor() {
+                super();
+                this.test = "Тест по темі Основи JS. Робота з об’єктами."
+                this.try = 0;
+                this.grade = [];
+            }
+
+            delete() {
+                super.delete();
+                this.test = "";
+                this.try = 0;
+                this.grade = [];
+            }
+
+            change(name, group, test, tryies, grade) {
+                super.change(name, group)
+                this.test = test;
+                this.try = tryies;
+                this.grade = grade;
+            }
+
+            showData() {
+                return `Ім'я ${this.name}\nГрупа ${this.group}\n${this.test}\nБал ${this.grade[this.grade.length - 1]}/13\nКількість спроб ${this.try}\nСередній бал ${this.GetMidGrade()}`;
+            }
+
+            GetMidGrade() {
+                let midgrade = 0;
+                for (let i = 0; i < this.grade.length; i++) {
+                    midgrade += this.grade[i];
+                }
+                return midgrade / this.try
+            }
+        }
+    </script>
+</header>
+
+
+</body>
+</html>
